@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
     std::string algorithm = argv[1];
     std::string datafile = argv[2];
 
+    // TODO :: CREATE SCHEDULER AND LOADER
+
     if (algorithm == "FIFO")
     {
         /* code */
@@ -30,6 +32,11 @@ int main(int argc, char *argv[])
         std::cerr << "Invalid algorithm / arguments." << std::endl;
         return EXIT_FAILURE;
     }
+
+    // Displaying Times
+    std::cout << "Average Turnaround Time: " << std::endl;
+    std::cout << "Average Waiting Time: " << std::endl;
+    std::cout << "Average Response Time: " << std::endl;
 
     return EXIT_SUCCESS;
 }
