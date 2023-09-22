@@ -11,3 +11,6 @@ rr: ./main.o ./pcb.o ./scheduler.o ./loader.o
 	
 clean: 
 	rm -f all ./*.o
+	rm -f ./fifo
+	rm -f ./sjf
+	rm -f ./rr
