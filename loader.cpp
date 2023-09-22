@@ -39,12 +39,8 @@ bool Loader::loadData(const std::string &dataFile)
     while (std::getline(file, line))
     {
         std::istringstream iss(line);
-        // std::cout << "iss: " << iss << std::endl;
-        // osp2023::id_type id;
-        // osp2023::time_type total_time;
-        // std::cout << "id: " << id << std::endl;
-        // std::cout << "total time: " << total_time << std::end;
         std::string id_str, total_time_str;
+
         if (!(std::getline(iss, id_str, ',') && std::getline(iss, total_time_str, ',')))
         {
             std::cerr << "Error: Invalid data format in provided data file: " << dataFile << std::endl;
@@ -70,21 +66,4 @@ bool Loader::loadData(const std::string &dataFile)
     }
     file.close();
     return true;
-    //     if (!(iss >> id >> total_time))
-    //     {
-    //         std::cerr << "Error: Invalid data format in file: " << dataFile << std::endl;
-    //         return false;
-    //     }
-    //     if (iss.fail())
-    //     {
-    //         std::cerr << "Error: Failed to extract data from file" << dataFile << std::endl;
-    //         return false;
-    //     }
-
-    //     pcb process(id, total_time);
-    //     readyQueue.push_back(process);
-    // }
-
-    // file.close();
-    // return true;
 }
