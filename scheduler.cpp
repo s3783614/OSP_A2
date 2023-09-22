@@ -16,7 +16,7 @@ void Scheduler::runFIFO()
     // double totalWaitTime = 0;
     double totalResponseTime = 0;
 
-    while (readyQueue.empty() || myQueue.empty())
+    while (!readyQueue.empty() || !myQueue.empty())
     {
         // Check if there is anything and then add it to queue
         while (!readyQueue.empty() && readyQueue.front().getLastCPUTime() <= currentTime)
