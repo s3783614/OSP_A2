@@ -1,10 +1,13 @@
-all: scheduler loader
+all: fifo sjf rr
 
-scheduler: ./main.o ./pcb.o ./scheduler.o
+fifo: ./main.o ./pcb.o ./scheduler.o ./loader.o
 	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
 
-loader: ./main.o ./pcb.o ./loader.o
+sjf: ./main.o ./pcb.o ./scheduler.o ./loader.o
 	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
 
+rr: ./main.o ./pcb.o ./scheduler.o ./loader.o
+	g++ -Wall -Werror -std=c++14 -g -O -o $@ $^
+	
 clean: 
 	rm -f all ./*.o

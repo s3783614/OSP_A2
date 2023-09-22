@@ -13,7 +13,7 @@ void Scheduler::runFIFO()
     std::queue<pcb> myQueue;
     osp2023::time_type currentTime = 0;
     double totalTurnaroundTime = 0;
-    double totalWaitTime = 0;
+    // double totalWaitTime = 0;
     double totalResponseTime = 0;
 
     while (readyQueue.empty() || myQueue.empty())
