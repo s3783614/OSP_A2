@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "pcb.h"
+#include "types.h"
 
 class Loader
 {

@@ -26,8 +26,8 @@ private:
 
 public:
     // max and min duration for a process in our system.
-    static constexpr osp2023::time_type MAX_DURATION = 100;
-    static constexpr osp2023::time_type MIN_DURATION = 10;
+    // static constexpr osp2023::time_type MAX_DURATION = 100;
+    // static constexpr osp2023::time_type MIN_DURATION = 10;
 
     pcb(osp2023::id_type _id,
         osp2023::time_type _total_time);

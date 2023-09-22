@@ -1,4 +1,3 @@
-#include "./fifo/fifo.h"
 #include <cstdlib>
 #include <iostream>
 
