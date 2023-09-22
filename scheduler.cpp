@@ -24,39 +24,39 @@ void Scheduler::runFIFO()
             myQueue.push(readyQueue.front());
             readyQueue.erase(readyQueue.begin());
         }
-    }
 
-    if (!myQueue.empty())
-    {
-        pcb curProcess = myQueue.front();
-        myQueue.pop();
+        if (!myQueue.empty())
+        {
+            pcb curProcess = myQueue.front();
+            myQueue.pop();
 
-        // Updated Response for the current Process
-        totalResponseTime += currentTime - curProcess.getLastCPUTime();
+            // Updated Response for the current Process
+            totalResponseTime += currentTime - curProcess.getLastCPUTime();
 
-        // Execute the process
-        osp2023::time_type executeTime = std::min(curProcess.getTotalTime() - curProcess.getTimeUsed(), curProcess.getTotalTime());
-        currentTime += executeTime;
+            // Execute the process
+            osp2023::time_type executeTime = std::min(curProcess.getTotalTime() - curProcess.getTimeUsed(), curProcess.getTotalTime());
+            currentTime += executeTime;
 
-        curProcess.updateTimeUsed(executeTime);
-        curProcess.updateTotalWaitTime(currentTime - curProcess.getLastCPUTime() - executeTime);
-        curProcess.updatedLastCPUTime(currentTime);
+            curProcess.updateTimeUsed(executeTime);
+            curProcess.updateTotalWaitTime(currentTime - curProcess.getLastCPUTime() - executeTime);
+            curProcess.updatedLastCPUTime(currentTime);
 
-        // Update turnaround time for the current process.
-        totalTurnaroundTime += currentTime - curProcess.getLastCPUTime();
+            // Update turnaround time for the current process.
+            totalTurnaroundTime += currentTime - curProcess.getLastCPUTime();
 
-        // Print process details
-        std::cout << "Proccess ID: " << curProcess.getID()
-                  << ", Burst Time: " << executeTime
-                  << ", Turnaround Time: " << currentTime - curProcess.getLastCPUTime()
-                  << ", Waiting Time: " << currentTime - curProcess.getLastCPUTime() - executeTime
-                  << ", Response Time: " << currentTime - curProcess.getLastCPUTime()
-                  << std::endl;
-    }
-    else
-    {
-        // no proccess in the fifo queue
-        currentTime++;
+            // Print process details
+            std::cout << "Proccess ID: " << curProcess.getID()
+                      << ", Burst Time: " << executeTime
+                      << ", Turnaround Time: " << currentTime - curProcess.getLastCPUTime()
+                      << ", Waiting Time: " << currentTime - curProcess.getLastCPUTime() - executeTime
+                      << ", Response Time: " << currentTime - curProcess.getLastCPUTime()
+                      << std::endl;
+        }
+        else
+        {
+            // no proccess in the fifo queue
+            currentTime++;
+        }
     }
 }
 
