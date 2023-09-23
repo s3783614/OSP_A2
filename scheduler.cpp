@@ -135,8 +135,106 @@ void Scheduler::runSJF()
 
 void Scheduler::runRR(osp2023::time_type quantam)
 {
-    // TODO: IMPLEMENT RR scheduling
-    // TODO update PCB attributes as the processes run
+    std::vector<pcb> myQueue(readyQueue);
+    osp2023::time_type currentTime = 0;
+    queueSize = readyQueue.size();
+
+    totalResponseTime = 0;
+    totalTurnaroundTime = 0;
+    totalWaitTime = 0;
+
+    int total = 0;
+    int i = 0;
+
+    // for (int i = 0; i < readyQueue.size(); i++)
+    // {
+    //     std::cout << "i: " << i << std::endl;
+    //     std::cout << "readyQueue[i]: " << readyQueue[i].getID() << std::endl;
+    // }
+
+    // while (!readyQueue.empty() || !myQueue.empty())
+    // {
+
+    // while (!readyQueue.empty() && readyQueue.front().getLastCPUTime() <= currentTime)
+    // {
+    //     myQueue.push_back(readyQueue.front());
+
+    //     readyQueue.erase(readyQueue.begin());
+    //     std::cout << readyQueue.front().getID() << std::endl;
+    // }
+    // std::cout << "i: " << i << std::endl;
+    // std::cout << "myQueue[i]: " << myQueue[i].getID() << std::endl;
+    // std::cout << "readyQueue[i]: " << readyQueue[i].getID() << std::endl;
+
+    // for (int i = 0; i < myQueue.size(); i++)
+    // {
+    //     std::cout << "i: " << i << std::endl;
+    //     std::cout << "myQueue[i]: " << myQueue[i].getID() << std::endl;
+    // }
+
+    while (!myQueue.empty())
+    {
+        pcb curProcess = myQueue.front();
+
+        if (curProcess.getTotalTime() - curProcess.getTimeUsed() <= quantam)
+        {
+            osp2023::time_type executeTime = curProcess.getTotalTime() - curProcess.getTimeUsed();
+            currentTime += executeTime;
+            total += executeTime;
+
+            osp2023::time_type turnaroundTime = total;
+            osp2023::time_type waitTime = total - curProcess.getTotalTime();
+            osp2023::time_type responseTime = total - curProcess.getTotalTime();
+
+            totalTurnaroundTime += turnaroundTime;
+            totalWaitTime += waitTime;
+            totalResponseTime += responseTime;
+
+            // Print process details
+            std::cout
+                << "Proccess ID: " << myQueue[i].getID()
+                << ", Burst Time: " << myQueue[i].getTotalTime()
+                << ", Turnaround Time: " << turnaroundTime
+                << ", Waiting Time: " << waitTime
+                << ", Response Time: " << responseTime
+                << std::endl;
+            myQueue.erase(myQueue.begin());
+            // std::cout << "POST COMPLETE ERASE: " << myQueue[i].getID() << std::endl;
+        }
+        else
+        {
+            currentTime += quantam;
+            total += quantam;
+
+            curProcess.updateTimeUsed(quantam);
+
+            myQueue.push_back(curProcess);
+
+            myQueue.erase(myQueue.begin());
+
+            // Move to the back of the queue
+            // readyQueue.push_back(myQueue[i]);
+            // std::cout << "pre erase: " << readyQueue.back().getID() << std::endl;
+            // myQueue.erase(myQueue.begin());
+
+            // std::cout << "post erase: " << myQueue[i].getID() << std::endl;
+        }
+
+        // if (i < myQueue.size() - 1)
+        // {
+        //     i++;
+        // }
+        // else
+        // {
+        //     i = 0;
+        // }
+    }
+    // else
+    // {
+    //     // In case there isn't a process
+    //     currentTime++;
+    // }
+    // }
 }
 
 double Scheduler::getAverageResponseTime() const
