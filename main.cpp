@@ -67,9 +67,13 @@ int main(int argc, char *argv[])
     }
 
     // Displaying Times
-    std::cout << "Average Turnaround Time: " << std::endl;
-    std::cout << "Average Waiting Time: " << std::endl;
-    std::cout << "Average Response Time: " << std::endl;
+    std::cout << "Average Turnaround Time: " << scheduler.getAverageTurnAroundTime() << std::endl;
+    // std::cout << "testing2" << std::endl;
 
+    std::cout << "Average Waiting Time: " << scheduler.getAverageWaitingTime() << std::endl;
+    // std::cout << "testing1" << std::endl;
+
+    std::cout << "Average Response Time: " << scheduler.getAverageResponseTime() << std::endl;
+    // std::cout << "testing" << std::endl;
     return EXIT_SUCCESS;
 }

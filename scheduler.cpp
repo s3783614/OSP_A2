@@ -11,16 +11,20 @@ Scheduler::Scheduler(const std::vector<pcb> &process)
 void Scheduler::runFIFO()
 {
     std::queue<pcb> myQueue;
+    queueSize = readyQueue.size();
+    std::cout << "queue size: " << queueSize << std::endl;
     osp2023::time_type currentTime = 0;
-    double totalTurnaroundTime = 0;
-    double totalWaitTime = 0;
-    double totalResponseTime = 0;
+
+    totalTurnaroundTime = 0;
+    totalWaitTime = 0;
+    totalResponseTime = 0;
 
     while (!readyQueue.empty() || !myQueue.empty())
     {
         // Check if there is anything and then add it to queue
         while (!readyQueue.empty() && readyQueue.front().getLastCPUTime() <= currentTime)
         {
+            // POP
             myQueue.push(readyQueue.front());
             readyQueue.erase(readyQueue.begin());
         }
@@ -42,17 +46,11 @@ void Scheduler::runFIFO()
             // Calculating the times
             osp2023::time_type turnaroundTime = currentTime;
             osp2023::time_type waitingTime = currentTime - curProcess.getTotalTime();
-            osp2023::time_type responseTime = currentTime - curProcess.getLastCPUTime();
+            osp2023::time_type responseTime = currentTime - curProcess.getTotalTime();
 
             totalTurnaroundTime += turnaroundTime;
             totalWaitTime += waitingTime;
-            totalResponseTime += responseTime;
-
-            // curProcess.updateTotalWaitTime(currentTime - curProcess.getLastCPUTime() - executeTime);
-            // curProcess.updatedLastCPUTime(currentTime);
-
-            // Update turnaround time for the current process.
-            // totalTurnaroundTime += currentTime - curProcess.getLastCPUTime();
+            // totalResponseTime += responseTime;
 
             // Print process details
             std::cout
@@ -85,46 +83,48 @@ void Scheduler::runRR(osp2023::time_type quantam)
 
 double Scheduler::getAverageResponseTime() const
 {
-    if (readyQueue.empty())
-    {
-        return 0.0;
-    }
+    // if (readyQueue.empty())
+    // {
+    //     return 0.0;
+    // }
 
-    double totalResponseTime = 0;
-    for (const pcb &process : readyQueue)
-    {
-        totalResponseTime += process.getTotalWaitTime();
-    }
-    return totalResponseTime / readyQueue.size();
+    // double totalResponseTime = 0;
+    // for (const pcb &process : readyQueue)
+    // {
+    //     totalResponseTime += process.getTotalWaitTime();
+    // }
+    // return totalResponseTime / readyQueue.size();
+    return totalResponseTime / queueSize;
 }
 
 double Scheduler::getAverageTurnAroundTime() const
 {
-    if (readyQueue.empty())
-    {
-        return 0.0;
-    }
+    // if (readyQueue.empty())
+    // {
+    //     return 0.0;
+    // }
 
-    double totalResponseTime = 0;
-    for (const pcb &process : readyQueue)
-    {
-        totalResponseTime += process.getTimeUsed();
-    }
-    return totalResponseTime / readyQueue.size();
-    // return 0.0;
+    // double totalResponseTime = 0;
+    // for (const pcb &process : readyQueue)
+    // {
+    //     totalResponseTime += process.getTimeUsed();
+    // }
+    // return totalResponseTime / readyQueue.size();
+    return totalTurnaroundTime / queueSize;
 }
 
 double Scheduler::getAverageWaitingTime() const
 {
-    if (readyQueue.empty())
-    {
-        return 0.0;
-    }
+    // if (readyQueue.empty())
+    // {
+    //     return 0.0;
+    // }
 
-    double totalWaitTime = 0;
-    for (const pcb &process : readyQueue)
-    {
-        totalWaitTime += process.getTotalWaitTime();
-    }
-    return totalWaitTime / readyQueue.size();
+    // double totalWaitTime = 0;
+    // for (const pcb &process : readyQueue)
+    // {
+    //     totalWaitTime += process.getTotalWaitTime();
+    // }
+    // return totalWaitTime / readyQueue.size();
+    return totalWaitTime / queueSize;
 }

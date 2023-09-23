@@ -6,6 +6,10 @@ class Scheduler
 {
 private:
     std::vector<pcb> readyQueue;
+    double totalResponseTime;
+    double totalTurnaroundTime;
+    double totalWaitTime;
+    int queueSize;
 
 public:
     Scheduler(const std::vector<pcb> &process);
