@@ -32,11 +32,11 @@ public:
     pcb(osp2023::id_type _id,
         osp2023::time_type _total_time);
 
-    osp2023::id_type getID();
-    osp2023::time_type getTotalTime();
+    osp2023::id_type getID() const;
+    osp2023::time_type getTotalTime() const;
     osp2023::time_type getTimeUsed() const;
     osp2023::time_type getTotalWaitTime() const;
-    osp2023::time_type getLastCPUTime();
+    osp2023::time_type getLastCPUTime() const;
 
     void updateTimeUsed(osp2023::time_type time);
     void updateTotalWaitTime(osp2023::time_type time);

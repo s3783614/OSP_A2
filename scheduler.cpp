@@ -71,8 +71,17 @@ void Scheduler::runFIFO()
 
 void Scheduler::runSJF()
 {
-    // TODO: IMPLEMENT SJF scheduling
-    // TODO update PCB attributes as the processes run
+    std::queue<pcb> myQueue;
+    osp2023::time_type currentTime = 0;
+
+    totalTurnaroundTime = 0;
+    totalWaitTime = 0;
+    totalResponseTime = 0;
+
+    while (!readyQueue.empty() || !myQueue.empty())
+    {
+        // std::sort(readyQueue.begin(), readyQueue.end(), [](pcb a, pcb b));
+    }
 }
 
 void Scheduler::runRR(osp2023::time_type quantam)

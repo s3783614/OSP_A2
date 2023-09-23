@@ -6,12 +6,12 @@ pcb::pcb(osp2023::id_type _id, osp2023::time_type _total_time)
 {
 }
 
-osp2023::id_type pcb::getID()
+osp2023::id_type pcb::getID() const
 {
     return id;
 }
 
-osp2023::time_type pcb::getTotalTime()
+osp2023::time_type pcb::getTotalTime() const
 {
     return total_time;
 }
@@ -26,7 +26,7 @@ osp2023::time_type pcb::getTotalWaitTime() const
     return total_wait_time;
 }
 
-osp2023::time_type pcb::getLastCPUTime()
+osp2023::time_type pcb::getLastCPUTime() const
 {
     return last_cpu_time;
 }
