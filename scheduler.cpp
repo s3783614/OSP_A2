@@ -1,6 +1,7 @@
 #include "scheduler.h"
 #include <iostream>
 #include <queue>
+#include <algorithm>
 
 Scheduler::Scheduler(const std::vector<pcb> &process)
     : readyQueue(process)
@@ -73,6 +74,7 @@ void Scheduler::runSJF()
 {
     std::queue<pcb> myQueue;
     osp2023::time_type currentTime = 0;
+    queueSize = readyQueue.size();
 
     totalTurnaroundTime = 0;
     totalWaitTime = 0;
@@ -80,7 +82,54 @@ void Scheduler::runSJF()
 
     while (!readyQueue.empty() || !myQueue.empty())
     {
-        // std::sort(readyQueue.begin(), readyQueue.end(), [](pcb a, pcb b));
+        std::sort(readyQueue.begin(), readyQueue.end(), [](const pcb a, const pcb b)
+                  { return a.getTotalTime() - a.getTimeUsed() < b.getTotalTime() - b.getTimeUsed(); });
+
+        // Check if there is anything and then add it to queue
+        while (!readyQueue.empty() && readyQueue.front().getLastCPUTime() <= currentTime)
+        {
+            // POP
+            myQueue.push(readyQueue.front());
+            readyQueue.erase(readyQueue.begin());
+        }
+
+        if (!myQueue.empty())
+        {
+            pcb curProcess = myQueue.front();
+            myQueue.pop();
+
+            // Updated Response for the current Process
+            totalResponseTime += currentTime - curProcess.getLastCPUTime();
+
+            // Execute the process
+            osp2023::time_type executeTime = std::min(curProcess.getTotalTime() - curProcess.getTimeUsed(), curProcess.getTotalTime());
+            currentTime += executeTime;
+
+            curProcess.updateTimeUsed(executeTime);
+
+            // Calculating the times
+            osp2023::time_type turnaroundTime = currentTime;
+            osp2023::time_type waitingTime = currentTime - curProcess.getTotalTime();
+            osp2023::time_type responseTime = currentTime - curProcess.getTotalTime();
+
+            totalTurnaroundTime += turnaroundTime;
+            totalWaitTime += waitingTime;
+            // totalResponseTime += responseTime;
+
+            // Print process details
+            std::cout
+                << "Proccess ID: " << curProcess.getID()
+                << ", Burst Time: " << executeTime
+                << ", Turnaround Time: " << turnaroundTime
+                << ", Waiting Time: " << waitingTime
+                << ", Response Time: " << responseTime
+                << std::endl;
+        }
+        else
+        {
+            // no proccess in the fifo queue
+            currentTime++;
+        }
     }
 }
 
