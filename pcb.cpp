@@ -16,12 +16,12 @@ osp2023::time_type pcb::getTotalTime()
     return total_time;
 }
 
-osp2023::time_type pcb::getTimeUsed()
+osp2023::time_type pcb::getTimeUsed() const
 {
     return time_used;
 }
 
-osp2023::time_type pcb::getTotalWaitTime()
+osp2023::time_type pcb::getTotalWaitTime() const
 {
     return total_wait_time;
 }

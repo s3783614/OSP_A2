@@ -85,15 +85,46 @@ void Scheduler::runRR(osp2023::time_type quantam)
 
 double Scheduler::getAverageResponseTime() const
 {
-    return 0.0;
+    if (readyQueue.empty())
+    {
+        return 0.0;
+    }
+
+    double totalResponseTime = 0;
+    for (const pcb &process : readyQueue)
+    {
+        totalResponseTime += process.getTotalWaitTime();
+    }
+    return totalResponseTime / readyQueue.size();
 }
 
 double Scheduler::getAverageTurnAroundTime() const
 {
-    return 0.0;
+    if (readyQueue.empty())
+    {
+        return 0.0;
+    }
+
+    double totalResponseTime = 0;
+    for (const pcb &process : readyQueue)
+    {
+        totalResponseTime += process.getTimeUsed();
+    }
+    return totalResponseTime / readyQueue.size();
+    // return 0.0;
 }
 
 double Scheduler::getAverageWaitingTime() const
 {
-    return 0.0;
+    if (readyQueue.empty())
+    {
+        return 0.0;
+    }
+
+    double totalWaitTime = 0;
+    for (const pcb &process : readyQueue)
+    {
+        totalWaitTime += process.getTotalWaitTime();
+    }
+    return totalWaitTime / readyQueue.size();
 }

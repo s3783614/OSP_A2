@@ -34,8 +34,8 @@ public:
 
     osp2023::id_type getID();
     osp2023::time_type getTotalTime();
-    osp2023::time_type getTimeUsed();
-    osp2023::time_type getTotalWaitTime();
+    osp2023::time_type getTimeUsed() const;
+    osp2023::time_type getTotalWaitTime() const;
     osp2023::time_type getLastCPUTime();
 
     void updateTimeUsed(osp2023::time_type time);
