@@ -13,7 +13,6 @@ void Scheduler::runFIFO()
 {
     std::queue<pcb> myQueue;
     queueSize = readyQueue.size();
-    std::cout << "queue size: " << queueSize << std::endl;
     osp2023::time_type currentTime = 0;
 
     totalTurnaroundTime = 0;
@@ -114,7 +113,6 @@ void Scheduler::runSJF()
 
             totalTurnaroundTime += turnaroundTime;
             totalWaitTime += waitingTime;
-            // totalResponseTime += responseTime;
 
             // Print process details
             std::cout
@@ -144,37 +142,18 @@ void Scheduler::runRR(osp2023::time_type quantam)
     totalWaitTime = 0;
 
     int total = 0;
-    int i = 0;
 
-    // for (int i = 0; i < readyQueue.size(); i++)
-    // {
-    //     std::cout << "i: " << i << std::endl;
-    //     std::cout << "readyQueue[i]: " << readyQueue[i].getID() << std::endl;
-    // }
-
-    // while (!readyQueue.empty() || !myQueue.empty())
-    // {
-
-    // while (!readyQueue.empty() && readyQueue.front().getLastCPUTime() <= currentTime)
-    // {
-    //     myQueue.push_back(readyQueue.front());
-
-    //     readyQueue.erase(readyQueue.begin());
-    //     std::cout << readyQueue.front().getID() << std::endl;
-    // }
-    // std::cout << "i: " << i << std::endl;
-    // std::cout << "myQueue[i]: " << myQueue[i].getID() << std::endl;
-    // std::cout << "readyQueue[i]: " << readyQueue[i].getID() << std::endl;
-
-    // for (int i = 0; i < myQueue.size(); i++)
-    // {
-    //     std::cout << "i: " << i << std::endl;
-    //     std::cout << "myQueue[i]: " << myQueue[i].getID() << std::endl;
-    // }
+    // vector to store
+    std::vector<osp2023::time_type> bleh(readyQueue.size() + 1, -1);
 
     while (!myQueue.empty())
     {
         pcb curProcess = myQueue.front();
+
+        if (bleh[curProcess.getID()] == -1)
+        {
+            bleh[curProcess.getID()] = currentTime;
+        }
 
         if (curProcess.getTotalTime() - curProcess.getTimeUsed() <= quantam)
         {
@@ -184,7 +163,7 @@ void Scheduler::runRR(osp2023::time_type quantam)
 
             osp2023::time_type turnaroundTime = total;
             osp2023::time_type waitTime = total - curProcess.getTotalTime();
-            osp2023::time_type responseTime = total - curProcess.getTotalTime();
+            osp2023::time_type responseTime = bleh[curProcess.getID()];
 
             totalTurnaroundTime += turnaroundTime;
             totalWaitTime += waitTime;
@@ -192,14 +171,13 @@ void Scheduler::runRR(osp2023::time_type quantam)
 
             // Print process details
             std::cout
-                << "Proccess ID: " << myQueue[i].getID()
-                << ", Burst Time: " << myQueue[i].getTotalTime()
+                << "Proccess ID: " << curProcess.getID()
+                << ", Burst Time: " << executeTime
                 << ", Turnaround Time: " << turnaroundTime
                 << ", Waiting Time: " << waitTime
                 << ", Response Time: " << responseTime
                 << std::endl;
             myQueue.erase(myQueue.begin());
-            // std::cout << "POST COMPLETE ERASE: " << myQueue[i].getID() << std::endl;
         }
         else
         {
@@ -211,76 +189,21 @@ void Scheduler::runRR(osp2023::time_type quantam)
             myQueue.push_back(curProcess);
 
             myQueue.erase(myQueue.begin());
-
-            // Move to the back of the queue
-            // readyQueue.push_back(myQueue[i]);
-            // std::cout << "pre erase: " << readyQueue.back().getID() << std::endl;
-            // myQueue.erase(myQueue.begin());
-
-            // std::cout << "post erase: " << myQueue[i].getID() << std::endl;
         }
-
-        // if (i < myQueue.size() - 1)
-        // {
-        //     i++;
-        // }
-        // else
-        // {
-        //     i = 0;
-        // }
     }
-    // else
-    // {
-    //     // In case there isn't a process
-    //     currentTime++;
-    // }
-    // }
 }
 
 double Scheduler::getAverageResponseTime() const
 {
-    // if (readyQueue.empty())
-    // {
-    //     return 0.0;
-    // }
-
-    // double totalResponseTime = 0;
-    // for (const pcb &process : readyQueue)
-    // {
-    //     totalResponseTime += process.getTotalWaitTime();
-    // }
-    // return totalResponseTime / readyQueue.size();
     return totalResponseTime / queueSize;
 }
 
 double Scheduler::getAverageTurnAroundTime() const
 {
-    // if (readyQueue.empty())
-    // {
-    //     return 0.0;
-    // }
-
-    // double totalResponseTime = 0;
-    // for (const pcb &process : readyQueue)
-    // {
-    //     totalResponseTime += process.getTimeUsed();
-    // }
-    // return totalResponseTime / readyQueue.size();
     return totalTurnaroundTime / queueSize;
 }
 
 double Scheduler::getAverageWaitingTime() const
 {
-    // if (readyQueue.empty())
-    // {
-    //     return 0.0;
-    // }
-
-    // double totalWaitTime = 0;
-    // for (const pcb &process : readyQueue)
-    // {
-    //     totalWaitTime += process.getTotalWaitTime();
-    // }
-    // return totalWaitTime / readyQueue.size();
     return totalWaitTime / queueSize;
 }

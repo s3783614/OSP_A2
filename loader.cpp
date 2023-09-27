@@ -21,19 +21,14 @@ const std::vector<pcb> &Loader::getReadyQueue() const
 
 bool Loader::loadData(const std::string &dataFile)
 {
-    // std::cout << "file: " << dataFile << std::endl;
-
     std::ifstream file(dataFile);
-    // std::cout << "!file: " << !file << std::endl;
 
     if (!file.is_open())
     {
-        std::cout << "inside !file" << std::endl;
 
         std::cerr << "Error loading the data file: " << dataFile << std::endl;
         return false;
     }
-    std::cout << "test1" << std::endl;
 
     std::string line;
     while (std::getline(file, line))
@@ -52,9 +47,6 @@ bool Loader::loadData(const std::string &dataFile)
             osp2023::id_type id = std::stoi(id_str);
             osp2023::time_type total_time = std::stoi(total_time_str);
 
-            // TODO:: DEBUG THINGS REMOVE
-            std::cout << "Read: id=" << id << ", total_time=" << total_time << std::endl;
-
             pcb process(id, total_time);
             readyQueue.push_back(process);
         }
@@ -64,6 +56,7 @@ bool Loader::loadData(const std::string &dataFile)
             return false;
         }
     }
+
     file.close();
     return true;
 }

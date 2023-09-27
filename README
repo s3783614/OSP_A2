@@ -1,0 +1,50 @@
+# Assignment 2 for Operating System Principles
+
+To run this this program on the RMIT servers first download and extract the zip folder on to a desired location. Then on the RMIT servers follow the following steps:
+
+- First navigate into the folder called `a2`
+- Then enable the dev toolkit using the following command `scl enable devtoolset-11 bash`
+
+Once those steps are done then we can build the project and run the different commands.
+
+## Running the project
+
+### Compiling
+
+The project can run 3 different scheduling algorithms `fifo`, `sjf`, and `rr`. To make a specific project run the command
+
+- `make  <algorithm name>`
+
+However if you choose to make all the projects at one you can simply run the command
+
+- `make` OR `make all`
+
+### Run Command
+
+To run the project once everything has been compiled, one of three algorithms can be run. Each of these have their individual commands which are as follows:
+
+#### First in First Out (FIFO)
+
+To run fifo, the following command needs to be run
+
+- `./fifo <datafile>`
+
+`<datafile>` should be replaced with the name of the file that is going to be read in.
+
+#### Shortest Job First (SJF)
+
+To run sjf, the following command needs to be run
+
+- `./sjf <datafile>`
+
+`<datafile>` should be replaced with the name of the file that is going to be read in.
+
+#### Round Robin (RR)
+
+To run rr, the following command needs to be run
+
+- `./rr <quantum> <datafile>`
+
+`<datafile>` should be replaced with the name of the file that is going to be read in.
+
+`<quantum>` should be replaced with an integer value
